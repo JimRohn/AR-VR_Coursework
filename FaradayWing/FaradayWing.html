@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Scene Teleportation with Interactive 360 Video</title>
+    <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
+</head>
+<body>
+
+<a-scene>
+    <a-assets>
+        <video id="scene0-video" autoplay loop="true" src="../Media_shootings/videos_stitched/FaradayWing1stFloor.mp4"></video>
+        <img id="scene1-image" src="../Media_shootings/images_stiched/FaradayWing_images/FaradayWingReception.jpg">
+        <img id="scene2-image" src="../Media_shootings/images_stiched/FaradayWing_images/FaradayWingCorridor_REMOVE.jpg">
+        <img id="scene3-image" src="../Media_shootings/images_stiched/FaradayWing_images/FaradayWingLabRoom.jpg">
+        <img id="scene4-image" src="../Media_shootings/images_stiched/FaradayWing_images/FaradayWingHall_remove.jpg">
+    </a-assets>
+
+    <!-- Starting with 360-degree video as the scene -->
+    <a-videosphere src="#scene0-video"></a-videosphere>
+
+    <!-- Teleport Boxes -->
+    <a-box id="boxFromVideoToScene1" class="interactable" position="0 1 -3" color="yellow" scale="0.5 0.5 0.5"></a-box>
+    <a-box id="boxToScene1" class="interactable" position="-2 1 -3" color="blue" scale="0.5 0.5 0.5" visible="false"></a-box>
+    <a-box id="boxToScene2" class="interactable" position="-2 1 -3" color="green" scale="0.5 0.5 0.5" visible="false"></a-box>
+    <a-box id="boxToScene3" class="interactable" position="-2 1 -3" color="orange" scale="0.5 0.5 0.5" visible="false"></a-box>
+    <!-- New Teleport Box to Scene 4 from Scene 3 -->
+    <a-box id="boxFromScene4ToVideo" class="interactable" position="-2 1 -3" color="pink" scale="0.5 0.5 0.5" visible="false"></a-box>
+
+    <a-camera position="0 1.6 0">
+        <a-cursor color="red" raycaster="objects: .interactable"></a-cursor>
+    </a-camera>
+</a-scene>
+
+<script>
+    document.querySelector('a-scene').addEventListener('click', function () {
+        var video = document.querySelector('#scene0-video');
+        if (video.paused) {
+            video.play();
+        }
+    });
+
+    function setBoxState(boxId, isVisible) {
+        const box = document.getElementById(boxId);
+        box.setAttribute('visible', isVisible);
+        if (isVisible) {
+            box.classList.add('interactable');
+        } else {
+            box.classList.remove('interactable');
+        }
+    }
+
+    document.querySelector('#boxFromVideoToScene1').addEventListener('click', function () {
+        document.querySelector('a-videosphere').setAttribute('src', '#scene1-image');
+        setBoxState('boxFromVideoToScene1', false);
+        setBoxState('boxToScene1', true);
+    });
+
+    document.querySelector('#boxToScene1').addEventListener('click', function () {
+        document.querySelector('a-videosphere').setAttribute('src', '#scene2-image');
+        setBoxState('boxToScene1', false);
+        setBoxState('boxToScene2', true);
+    });
+
+    document.querySelector('#boxToScene2').addEventListener('click', function () {
+        document.querySelector('a-videosphere').setAttribute('src', '#scene3-image');
+        setBoxState('boxToScene2', false);
+        setBoxState('boxToScene3', true); // Show the box to go to Scene 4
+    });
+
+    // Transition from Scene 3 to Scene 4
+    document.querySelector('#boxToScene3').addEventListener('click', function () {
+        document.querySelector('a-videosphere').setAttribute('src', '#scene4-image');
+        setBoxState('boxToScene3', false); // Hide the box once in Scene 4
+        setBoxState('boxFromScene4ToVideo', true); // Show the box to go back to Scene 0
+    });
+
+    // Transition from Scene 4 to Scene 0
+    document.querySelector('#boxFromScene4ToVideo').addEventListener('click', function () {
+        document.querySelector('a-videosphere').setAttribute('src', '#scene0-video');
+        setBoxState('boxFromScene4ToVideo', false); // Hide the box once in Scene 0
+        // Manage the state of other boxes as needed for Scene 0
+    });
+
+</script>
+
+</body>
+</html>
