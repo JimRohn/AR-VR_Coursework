@@ -4,7 +4,7 @@
 This repository contains the code for an Augmented Reality (AR) / Virtual Reality (VR) application developed as part of our coursework. The application is designed to provide immersive experiences using AR/VR technology.
 
 ## Media Assets
-The media assets required for this project are substantial in size and are hosted separately. They can be accessed via Google Drive here: [Google Drive Link](INSERT_LINK_HERE).
+The media assets required for this project are substantial in size and are hosted separately. They can be accessed via Google Drive here: https://drive.google.com/drive/folders/1opoVxe8WAnUQBV6J33k1s1mrwG0j8iFL?usp=sharing .
 
 ## Collaboration
 This project is a collaborative effort among four colleagues: Naima, Fabio, Niamat, and Nadifa. We've combined our expertise to create an engaging AR/VR experience.
